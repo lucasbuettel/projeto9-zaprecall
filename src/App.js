@@ -3,15 +3,17 @@ import { GlobalStyle } from "./GlobalStyle"
 import Header from "./Header"
 import Content from "./Content"
 import  Footer from "./Footer"
+import React from "react"
 
 export default function App(){
-
+    const [contador, SetContador] = React.useState(0);
+    const [n, SetN] = React.useState(0);
     return (<>
         <GlobalStyle></GlobalStyle>
         <ScreenContainer>
-            <Header></Header>
-            <Content></Content>
-            <Footer></Footer>
+            <Header/>
+            <Content SetContador = {SetContador} contador = {contador} SetN = {SetN}/>
+            <Footer contador = {contador} n={n}/>
         </ScreenContainer>
     </>)
 }

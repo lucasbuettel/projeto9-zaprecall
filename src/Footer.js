@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
-export default function Footer(){
+export default function Footer({contador, n}){
     return(
         <>
         <FooterContainer>
-            <div>Concluidos 0/8</div>
+            <div data-identifier="flashcard-counter">Concluidos {contador}/{n} </div>
         </FooterContainer>
         </>
     )

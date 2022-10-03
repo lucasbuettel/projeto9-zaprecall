@@ -1,11 +1,11 @@
 import styled from "styled-components"
 import Questions from "./Questions"
 
-export default function Content(){
+export default function Content({contador, SetContador, SetN}){
    return(
     <>
     <ContainerButtons>
-        <Questions/>
+        <Questions SetContador = {SetContador} contador = {contador} SetN = {SetN}/>
     </ContainerButtons>
     </>
    )

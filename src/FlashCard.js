@@ -7,7 +7,7 @@ import icone_erro from "./assets/img/icone_erro.png"
 import icone_quase from "./assets/img/icone_quase.png"
 
 
-export default function FlashCard({question, index}){
+export default function FlashCard({question, index, contador, SetContador}){
     
     const [quest, SetQuest] = React.useState(false);
     const[pergunta, SetPergunta] = React.useState(`Pergunta`);
@@ -26,6 +26,7 @@ export default function FlashCard({question, index}){
         SetColor("#FF3030");
         Setthrough("through");
         SetPicture(icone_erro);
+        SetContador(contador+1);
     }
 
     function quase(){
@@ -36,6 +37,7 @@ export default function FlashCard({question, index}){
         SetColor("#FF922E");
         Setthrough("through");
         SetPicture(icone_quase);
+        SetContador(contador+1);
     }
 
     function zap(){
@@ -46,29 +48,31 @@ export default function FlashCard({question, index}){
         SetColor("#2FBE34");
         Setthrough("through")
         SetPicture(icone_certo);
+        SetContador(contador+1);
     }
    function anwser(){
     
     SetQuest(true);
     Seti("");
-    SetPergunta(question.Q);
+    SetPergunta(question.Q);  
+    
     if(picture === play){SetPicture(turn);}
     if(picture === turn){
         SetPergunta(question.R);
         SetPicture("");
-    SetButtons(<ButtonContainer>
-                <Button1 onClick={naoLembrei}>Não lembrei</Button1>
-                <Button2 onClick={quase}>Quase não lembrei</Button2>
-                <Button3 onClick={zap}>Zap!</Button3>
+    SetButtons(<ButtonContainer data-identifier="flashcard-index-item" >
+                <Button1 data-identifier="forgot-btn" onClick={naoLembrei}>Não lembrei</Button1>
+                <Button2 data-identifier="almost-forgot-btn" onClick={quase}>Quase não lembrei</Button2>
+                <Button3 data-identifier="zap-btn" onClick={zap}>Zap!</Button3>
     </ButtonContainer>)
     }
    }
     
     return(
         <>
-        <QuestionClose quest = {quest} color={color} through={through}>
-            <p>{`${pergunta} ${i}`}</p> 
-            <img onClick={anwser} src={picture}/>
+        <QuestionClose data-identifier="flashcard" quest = {quest} color={color} through={through}>
+            <p data-identifier="flashcard-question flashcard-answer" >{`${pergunta} ${i}`}</p> 
+            <img onClick={anwser} data-identifier="flashcard-show-btn flashcard-turn-btn flashcard-status" src={picture}/>
             {buttons}
         </QuestionClose> 
         </>
