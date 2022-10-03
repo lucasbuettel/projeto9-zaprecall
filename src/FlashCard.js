@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components"
 import play from "./assets/img/seta_play.png"
 import turn from "./assets/img/seta_virar.png"
+import icone_certo from "./assets/img/icone_certo.png"
+import icone_erro from "./assets/img/icone_erro.png"
+import icone_quase from "./assets/img/icone_quase.png"
 
 
 export default function FlashCard({question, index}){
@@ -9,26 +12,64 @@ export default function FlashCard({question, index}){
     const [quest, SetQuest] = React.useState(false);
     const[pergunta, SetPergunta] = React.useState(`Pergunta`);
     const[i, Seti] = React.useState(`${index}`);
-    const [picture, setPicture] = React.useState(play)
+    const [picture, SetPicture] = React.useState(play)
+    const [buttons, SetButtons] = React.useState("")
+    const [color, SetColor]= React.useState("");
+    const [through, Setthrough] = React.useState("");
 
+
+    function naoLembrei(){
+        SetPergunta('Pergunta');
+        Seti(index);
+        SetButtons("");
+        SetQuest(false);
+        SetColor("#FF3030");
+        Setthrough("through");
+        SetPicture(icone_erro);
+    }
+
+    function quase(){
+        SetPergunta('Pergunta');
+        Seti(index);
+        SetButtons("");
+        SetQuest(false);
+        SetColor("#FF922E");
+        Setthrough("through");
+        SetPicture(icone_quase);
+    }
+
+    function zap(){
+        SetPergunta('Pergunta');
+        Seti(index);
+        SetButtons("");
+        SetQuest(false);
+        SetColor("#2FBE34");
+        Setthrough("through")
+        SetPicture(icone_certo);
+    }
    function anwser(){
     
     SetQuest(true);
     Seti("");
     SetPergunta(question.Q);
-    if(picture === play){setPicture(turn);}
+    if(picture === play){SetPicture(turn);}
     if(picture === turn){
         SetPergunta(question.R);
-        setPicture("");
+        SetPicture("");
+    SetButtons(<ButtonContainer>
+                <Button1 onClick={naoLembrei}>Não lembrei</Button1>
+                <Button2 onClick={quase}>Quase não lembrei</Button2>
+                <Button3 onClick={zap}>Zap!</Button3>
+    </ButtonContainer>)
     }
    }
     
     return(
         <>
-        <QuestionClose quest = {quest}>
+        <QuestionClose quest = {quest} color={color} through={through}>
             <p>{`${pergunta} ${i}`}</p> 
             <img onClick={anwser} src={picture}/>
-            
+            {buttons}
         </QuestionClose> 
         </>
     )
@@ -54,13 +95,18 @@ const QuestionClose = styled.div`
     ${(prop) => prop.quest ? `position: relative;` : ``};
     ${(prop) => prop.quest ? `flex-direction: column;` : ``};
 p{
+    width:250px;
     font-family: 'Recursive', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-    color: #333333;
-    ${(prop) => prop.quest ? `margin-right: 200px;` : ``};
+    ${(prop) => prop.color !== "" ? `color: ${prop.color}` : `color:#333333`};
+    ${(prop) => prop.quest ? `margin-right: 50px;` : ``};
+    ${(prop) => prop.through !== "" ? `text-decoration:line-through` : ``};
+    ${(prop) => prop.through !== "" ? `text-decoration-color: ${prop.color}` : ``};
+    
+    
 }
 
 img{
@@ -69,4 +115,69 @@ img{
     ${(prop) => prop.quest ? `bottom: 10px;` : ``};
     ${(prop) => prop.quest ? `right: 10px;` : ``};
 }
+`
+
+const ButtonContainer = styled.div`
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    margin: 20px;
+    
+`
+const Button1 = styled.button`
+    width: 90px;
+    font-family: 'Recursive', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    background: #FF3030;
+    border-radius: 5px;
+    border: 1px solid #FF3030;
+    padding:5px;
+    cursor: pointer;
+    margin-right:10px;
+`
+const Button2 = styled.button`
+    width: 90px;
+    font-family: 'Recursive', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    background: #FF922E;
+    border-radius: 5px;
+    border: 1px solid #FF922E;
+    padding:5px;
+    cursor: pointer;
+    margin-right:10px;
+`
+const Button3 = styled.button`
+    width: 90px;
+    font-family: 'Recursive', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    background: #2FBE34;
+    border-radius: 5px;
+    border: 1px solid #2FBE34;
+    padding:5px;
+    cursor: pointer;
+    
 `
